@@ -1,18 +1,14 @@
 # 📚 Multi-Agent PDF Analysis System
 
-**Advanced document analysis system using OpenAI Agents SDK with autonomous multi-agent orchestration, RAG pipeline, and interactive UI.**
-
----
+Advanced document analysis system using OpenAI Agents SDK with autonomous multi-agent orchestration, RAG pipeline, and interactive UI.
 
 ## 🎯 Overview
 
-This system implements a sophisticated multi-agent architecture using **OpenAI Agents SDK (v0.6.1)** for intelligent PDF document analysis. It features autonomous intent detection, retrieval-augmented generation (RAG), specialized reasoning agents, and an interactive Streamlit interface with citation highlighting.
-
----
+This system implements a sophisticated multi-agent architecture using OpenAI Agents SDK (v0.6.1) for intelligent PDF document analysis. It features autonomous intent detection, retrieval-augmented generation (RAG), specialized reasoning agents, and an interactive Streamlit interface with citation highlighting.
 
 ## 🏗️ System Architecture
 
-### **Multi-Agent Framework**
+### Multi-Agent Framework
 
 ```
 User Query → Planner Agent (Intent Detection)
@@ -26,58 +22,53 @@ User Query → Planner Agent (Intent Detection)
     Response with Cited Evidence
 ```
 
-### **6 Specialized Agents**
+### 6 Specialized Agents
 
-1. **Planner Agent** - LLM-based intent classification and routing
-2. **RAG Agent** - Retrieval-augmented generation with FAISS
-3. **Summarization Agent** - Map-reduce document summarization
-4. **Comparator Agent** - Cross-document comparison analysis
-5. **Timeline Builder Agent** - Chronological event organization
-6. **Aggregator Agent** - Multi-source information synthesis
-
----
+- **Planner Agent** - Autonomous orchestrator using handoffs
+- **RAG Agent** - Retrieval-augmented generation with FAISS
+- **Summarization Agent** - Full-document summarization
+- **Comparator Agent** - Cross-document comparison analysis
+- **Timeline Builder Agent** - Chronological event organization
+- **Aggregator Agent** - Multi-source information synthesis
 
 ## 🔧 Technical Stack
 
 | Component | Technology |
 |-----------|-----------|
-| **Agent Framework** | OpenAI Agents SDK v0.6.1 |
-| **LLM** | OpenAI (provider-agnostic) |
-| **Vector Database** | FAISS (IndexFlatIP) |
-| **Embeddings** | sentence-transformers (384-dim) |
-| **PDF Processing** | pdfplumber + PyMuPDF |
-| **UI Framework** | Streamlit |
-
----
+| Agent Framework | OpenAI Agents SDK v0.6.1 |
+| LLM | OpenAI (provider-agnostic) |
+| Vector Database | FAISS (IndexFlatIP) |
+| Embeddings | sentence-transformers (384-dim) |
+| PDF Processing | pdfplumber + PyMuPDF |
+| UI Framework | Streamlit |
 
 ## 📋 Features
 
-### **Core Capabilities**
-- ✅ **Autonomous Intent Detection** - No manual mode selection
-- ✅ **RAG Pipeline** - Semantic search with grounded responses
-- ✅ **Multi-Document Analysis** - Cross-document retrieval
-- ✅ **Citation Tracking** - Every answer includes ranked evidence
-- ✅ **Interactive PDF Viewer** - Click-to-navigate with highlighting
-- ✅ **Agent Orchestration** - Dynamic agent chaining
+### Core Capabilities
 
-### **Advanced Features**
-- ✅ **Tool Calling** - Agents call Python functions
-- ✅ **Session Management** - Automatic conversation history
-- ✅ **Map-Reduce Summarization** - Handles 100+ page documents
-- ✅ **Evidence Highlighting** - Yellow highlights on cited passages
-- ✅ **Execution Tracing** - Transparent agent workflow
-- ✅ **Built-in Tracing** - Debug and optimize workflows
+✅ Autonomous Intent Detection - No manual mode selection  
+✅ RAG Pipeline - Semantic search with grounded responses  
+✅ Multi-Document Analysis - Cross-document retrieval  
+✅ Citation Tracking - Every answer includes ranked evidence  
+✅ Interactive PDF Viewer - Click-to-navigate with highlighting  
+✅ Agent Orchestration - Dynamic agent chaining  
 
----
+### Advanced Features
+
+✅ Tool Calling - Agents call Python functions (@function_tool)  
+✅ Autonomous Handoffs - LLM-driven delegation (no manual routing)  
+✅ Global State Management - Tools access shared Vector Store  
+✅ Evidence Highlighting - Yellow highlights on cited passages  
+✅ Execution Tracing - Transparent agent workflow via Runner logs  
 
 ## 🚀 Quick Start
 
-### **1. Prerequisites**
+### 1. Prerequisites
 
 - Python 3.9+
-- OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
+- OpenAI API key ([Get one here](https://platform.openai.com/api-keys)) OR a Gemini API Key
 
-### **2. Installation**
+### 2. Installation
 
 ```bash
 # Clone repository
@@ -88,25 +79,23 @@ cd pdf_agent_system
 pip install -r requirements.txt
 ```
 
-### **3. Configuration**
+### 3. Configuration
 
 ```bash
 # Copy environment template
 cp .env.example .env
 
-# Edit .env and add your OpenAI API key
-OPENAI_API_KEY=sk-your-api-key-here
+# Edit .env and add your API key
+OPENAI_API_KEY=your_key_here
 ```
 
-### **4. Run Application**
+### 4. Run Application
 
 ```bash
 streamlit run app.py
 ```
 
-Access the application at: **http://localhost:8501**
-
----
+Access the application at: http://localhost:8501
 
 ## 📁 Project Structure
 
@@ -114,139 +103,97 @@ Access the application at: **http://localhost:8501**
 pdf_agent_system/
 ├── agents/
 │   ├── __init__.py
-│   ├── rag_agent.py                # RAG with retrieval tool (150 lines)
-│   ├── summarization_agent.py      # Map-reduce summarization (120 lines)
-│   ├── specialized_agents.py       # 3 reasoning agents (180 lines)
-│   └── planner_agent.py            # Orchestrator (200 lines)
+│   ├── tools.py                    # Standalone tools for SDK agents
+│   ├── rag_agent.py                # RAG Agent definition
+│   ├── summarization_agent.py      # Summarization Agent definition
+│   ├── specialized_agents.py       # Reasoning Agents (Comparator, Timeline, etc.)
+│   └── planner_agent.py            # Orchestrator with Handoffs
 ├── utils/
 │   ├── __init__.py
-│   ├── pdf_processor.py            # PDF extraction + chunking (180 lines)
-│   └── vector_store.py             # FAISS vector database (150 lines)
+│   ├── state.py                    # Singleton for tool access
+│   ├── pdf_processor.py            # PDF extraction + chunking
+│   └── vector_store.py             # FAISS vector database
 ├── config/
 │   ├── __init__.py
-│   └── settings.py                 # Configuration (50 lines)
-├── app.py                          # Streamlit UI (454 lines)
+│   └── settings.py                 # Configuration
+├── app.py                          # Streamlit UI
 ├── requirements.txt                # Dependencies
 ├── .env.example                    # Configuration template
 ├── .gitignore                      # Git ignore rules
 └── README.md                       # This file
 ```
 
-**Total:** ~1,500 lines of production code
-
----
-
 ## 🎓 How It Works
 
-### **1. OpenAI Agents SDK Integration**
+### 1. OpenAI Agents SDK Integration
 
-Create agents using the official SDK:
+We use the native Agent and Runner primitives:
 
 ```python
 from agents import Agent, Runner
 
-# Create agent
-agent = Agent(
-    name="RAG Agent",
-    instructions="You are a RAG agent...",
-    tools=[retrieve_documents]
-)
-
-# Run agent
-result = Runner.run_sync(agent, "What are the findings?")
+# Agents invoke tools and hand off to others
+result = Runner.run_sync(planner_agent, user_query)
 print(result.final_output)
 ```
 
-### **2. Tool Functions**
+### 2. Tool Functions
 
-Agents can call Python functions:
-
-```python
-def retrieve_documents(query: str, top_k: int = 5):
-    """Retrieve relevant document chunks"""
-    results = vector_store.search(query, top_k)
-    return format_results(results)
-
-# Agent automatically calls this function when needed
-```
-
-### **3. Agent Orchestration**
+Tools are defined using the @function_tool decorator and access shared state:
 
 ```python
-# Planner detects intent
-intent = planner.detect_intent("Compare X and Y")
-
-# Routes to agent chain
-evidence = rag_agent.retrieve(query)
-comparison = comparator_agent.analyze(evidence)
+@function_tool
+def retrieve_documents(query: str):
+    """Retrieve relevant chunks"""
+    return global_state.vector_store.search(query)
 ```
 
----
+### 3. Autonomous Orchestration
+
+The Planner Agent uses instructions and the handoffs list to route dynamically:
+
+```python
+planner_agent = Agent(
+    name="Planner",
+    instructions="Route queries to the correct specialist...",
+    handoffs=[rag_agent, summarization_agent, comparator_agent]
+)
+```
 
 ## 💡 Usage Examples
 
-### **Example 1: Question Answering**
+### Example 1: Question Answering
 
-```
-User: "What are the main findings in the research paper?"
+**User:** "What are the main findings in the research paper?"
 
-System Flow:
-1. Planner detects QUERY intent
-2. RAG Agent retrieves 5 relevant chunks
+**System Flow:**
+1. Planner delegates to RAG Agent
+2. RAG Agent calls 'retrieve_documents' tool
 3. Agent generates answer with citations
 
-Output:
+**Output:**
+```
 Answer: "The research identifies three main findings: [1] X, [2] Y, [3] Z"
-Evidence: 5 cited sources with page numbers
 ```
 
-### **Example 2: Document Summarization**
+### Example 2: Comparative Analysis
 
-```
-User: "Summarize all uploaded documents"
+**User:** "Compare the methodologies across these papers"
 
-System Flow:
-1. Planner detects SUMMARIZE intent
-2. Summarization Agent uses map-reduce strategy
-3. Combines summaries into coherent narrative
-
-Output:
-Comprehensive summary covering all documents
-```
-
-### **Example 3: Comparative Analysis**
-
-```
-User: "Compare the methodologies across these papers"
-
-System Flow:
-1. Planner detects COMPARE intent
+**System Flow:**
+1. Planner delegates to RAG Agent
 2. RAG Agent retrieves methodology sections
-3. Comparator Agent analyzes differences
+3. RAG Agent hands off to Comparator Agent
+4. Comparator Agent analyzes differences
 
-Output:
+**Output:**
+```
 Structured comparison with specific examples
 ```
 
-### **Example 4: Timeline Construction**
-
-```
-User: "Create a timeline of events mentioned"
-
-System Flow:
-1. Planner detects TIMELINE intent
-2. RAG Agent retrieves temporal information
-3. Timeline Builder organizes chronologically
-
-Output:
-Ordered timeline with dates and causal relationships
-```
-
----
-
 ## ⚙️ Configuration
 
-### **Environment Variables**
+### Environment Variables
 
 ```bash
 # Required
@@ -256,82 +203,21 @@ OPENAI_API_KEY=sk-your-key-here
 CHUNK_SIZE=1000
 CHUNK_OVERLAP=200
 TOP_K_RETRIEVAL=5
-SIMILARITY_THRESHOLD=0.1
 ```
-
----
-
-## 🎯 Key Implementation Details
-
-### **RAG Pipeline**
-
-```
-PDF Upload → Text Extraction → Chunking (1000 chars, 200 overlap)
-              ↓
-    Embedding (sentence-transformers)
-              ↓
-    FAISS Index (IndexFlatIP, cosine similarity)
-              ↓
-    Query → Top-K Retrieval → Context Assembly → LLM Generation
-```
-
-### **Agent Tool Calling**
-
-```
-User Query → Agent decides to call tool
-             ↓
-       Tool executed in Python
-             ↓
-       Results returned to Agent
-             ↓
-       Agent generates final response
-```
-
-### **Map-Reduce Summarization**
-
-```
-Long Document (100+ chunks)
-    ↓
-Split into batches (10 chunks each)
-    ↓
-Summarize each batch (Map step)
-    ↓
-Combine summaries (Reduce step)
-    ↓
-Final coherent summary
-```
-
----
 
 ## 💰 Cost Considerations
 
-### **OpenAI Pricing**
+### OpenAI Pricing
 
 | Model | Input (per 1M tokens) | Output (per 1M tokens) |
 |-------|----------------------|------------------------|
 | gpt-4o-mini | $0.150 | $0.600 |
 | gpt-4o | $2.50 | $10.00 |
 
-### **Typical Usage**
+### Typical Usage
 
 - **Per Query:** ~2,000 input + 500 output tokens = ~$0.0006
 - **Per Session:** ~10 queries = ~$0.006
-- **Testing/Development:** ~$1-2 total
-
----
-
-## 📊 System Metrics
-
-| Metric | Value |
-|--------|-------|
-| **Total Agents** | 6 |
-| **Total Code** | ~1,500 lines |
-| **Vector Dimensions** | 384 |
-| **Default Top-K** | 5 |
-| **Chunk Size** | 1000 chars |
-| **Chunk Overlap** | 200 chars |
-
----
 
 ## 🎉 Acknowledgments
 
@@ -342,10 +228,4 @@ Final coherent summary
 
 ---
 
-<div align="center">
-
-### ✨ Built with OpenAI Agents SDK v0.6.1 | Multi-Agent Architecture ✨
-
-</div>
-
----
+✨ **Built with OpenAI Agents SDK v0.6.1 | Multi-Agent Architecture** ✨

@@ -1,35 +1,20 @@
-"""
-Configuration Settings
-"""
 import os
-from dotenv import load_dotenv
+from openai import AsyncOpenAI
+from agents import OpenAIChatCompletionsModel
+from config.settings import Config
 
-load_dotenv()
+# Ensure API Key is loaded
+if not Config.OPENAI_API_KEY:
+    raise ValueError("API Key not found. Please check your .env file.")
 
+# Initialize OpenAI Client
+client = AsyncOpenAI(
+    api_key=Config.OPENAI_API_KEY,
+    base_url="https://platform.openai.com/api-keys" 
+)
 
-class Config:
-    """Application configuration"""
-    
-    # OpenAI Configuration
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-    OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-    
-    # UI Configuration
-    PAGE_TITLE = "Multi-Agent PDF Analysis"
-    PAGE_ICON = "📚"
-    
-    # RAG settings
-    CHUNK_SIZE = 1000
-    CHUNK_OVERLAP = 200
-    TOP_K_RETRIEVAL = 5
-    SIMILARITY_THRESHOLD = 0.1
-    
-    # Embedding model
-    EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-    
-    @classmethod
-    def validate(cls):
-        """Validate required configuration"""
-        if not cls.OPENAI_API_KEY:
-            raise ValueError("OPENAI_API_KEY not set in environment variables")
-        return True
+# Create the Model Wrapper used by all agents
+agent_model = OpenAIChatCompletionsModel(
+    model=Config.OPENAI_MODEL, 
+    openai_client=client,
+)
