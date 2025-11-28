@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyc
+
+# Virtual Environments
+env/
+venv/
+ENV/
+.venv/
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Project specific
+*.pdf
+data/
+logs/
+uploads/
+temp/
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Temporary
+*.tmp
+*.bak
